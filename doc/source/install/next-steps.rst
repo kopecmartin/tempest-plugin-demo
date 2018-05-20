@@ -3,7 +3,7 @@
 Next steps
 ~~~~~~~~~~
 
-Your OpenStack environment now includes the tempest_tests service.
+Your OpenStack environment now includes the my_tempest_tests service.
 
 To add additional services, see
 https://docs.openstack.org/project-install-guide/ocata/.

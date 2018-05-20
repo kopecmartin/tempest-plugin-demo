@@ -1,6 +1,6 @@
-==================================
-service service installation guide
-==================================
+=====================================
+my_service service installation guide
+=====================================
 
 .. toctree::
    :maxdepth: 2
@@ -10,7 +10,7 @@ service service installation guide
    verify.rst
    next-steps.rst
 
-The service service (tempest_tests) provides...
+The my_service service (my_tempest_tests) provides...
 
 This chapter assumes a working setup of OpenStack following the
 `OpenStack Installation Tutorial

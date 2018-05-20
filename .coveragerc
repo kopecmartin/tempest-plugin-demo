@@ -1,6 +1,6 @@
 [run]
 branch = True
-source = tempest_tests
+source = my_tempest_tests
 
 [report]
 ignore_errors = True

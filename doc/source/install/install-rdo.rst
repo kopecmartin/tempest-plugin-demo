@@ -4,7 +4,7 @@ Install and configure for Red Hat Enterprise Linux and CentOS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-This section describes how to install and configure the service service
+This section describes how to install and configure the my_service service
 for Red Hat Enterprise Linux 7 and CentOS 7.
 
 .. include:: common_prerequisites.rst
@@ -23,11 +23,11 @@ Install and configure components
 Finalize installation
 ---------------------
 
-Start the service services and configure them to start when
+Start the my_service services and configure them to start when
 the system boots:
 
 .. code-block:: console
 
-   # systemctl enable openstack-tempest_tests-api.service
+   # systemctl enable openstack-my_tempest_tests-api.service
 
-   # systemctl start openstack-tempest_tests-api.service
+   # systemctl start openstack-my_tempest_tests-api.service

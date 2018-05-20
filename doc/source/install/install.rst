@@ -4,7 +4,7 @@ Install and configure
 ~~~~~~~~~~~~~~~~~~~~~
 
 This section describes how to install and configure the
-service service, code-named tempest_tests, on the controller node.
+my_service service, code-named my_tempest_tests, on the controller node.
 
 This section assumes that you already have a working OpenStack
 environment with at least the following components installed:

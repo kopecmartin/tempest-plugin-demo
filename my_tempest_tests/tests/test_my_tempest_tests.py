@@ -13,16 +13,16 @@
 # under the License.
 
 """
-test_tempest_tests
+test_my_tempest_tests
 ----------------------------------
 
-Tests for `tempest_tests` module.
+Tests for `my_tempest_tests` module.
 """
 
-from tempest_tests.tests import base
+from my_tempest_tests.tests import base
 
 
-class TestTempest_tests(base.TestCase):
+class TestMy_tempest_tests(base.TestCase):
 
     def test_something(self):
         pass

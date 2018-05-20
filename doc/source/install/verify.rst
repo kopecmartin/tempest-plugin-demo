@@ -3,7 +3,7 @@
 Verify operation
 ~~~~~~~~~~~~~~~~
 
-Verify operation of the service service.
+Verify operation of the my_service service.
 
 .. note::
 
@@ -21,4 +21,4 @@ Verify operation of the service service.
 
    .. code-block:: console
 
-      $ openstack service service list
+      $ openstack my_service service list

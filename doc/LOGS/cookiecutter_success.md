@@ -4,8 +4,8 @@
 (.venv)[master !][centos@mkopec-test tempest-plugin-demo]$ cookiecutter https://git.openstack.org/openstack-dev/cookiecutter.git
 You've downloaded /home/centos/.cookiecutters/cookiecutter before. Is it okay to delete and re-download it? [yes]: no
 Do you want to re-use the existing version? [yes]: yes
-module_name [replace with the name of the python module]: tempest_tests
-service [replace with the service it implements]: service
+module_name [replace with the name of the python module]: my_tempest_tests
+service [replace with the service it implements]: my_service
 repo_group [openstack]:
 repo_name [replace with the name for the git repo]: tempest-plugin-demo
 Select bug_tracker:

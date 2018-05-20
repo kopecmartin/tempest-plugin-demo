@@ -1,5 +1,5 @@
 ============================================
- tempest_tests Release Notes
+ my_tempest_tests Release Notes
 ============================================
 
 .. toctree::

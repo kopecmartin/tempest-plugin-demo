@@ -52,7 +52,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'tempest_tests Release Notes'
+project = u'my_tempest_tests Release Notes'
 copyright = u'2017, OpenStack Developers'
 
 # openstackdocstheme options
@@ -192,7 +192,7 @@ html_static_path = ['_static']
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'tempest_testsReleaseNotesdoc'
+htmlhelp_basename = 'my_tempest_testsReleaseNotesdoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -212,8 +212,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    ('index', 'tempest_testsReleaseNotes.tex',
-     u'tempest_tests  Release Notes Documentation',
+    ('index', 'my_tempest_testsReleaseNotes.tex',
+     u'my_tempest_tests  Release Notes Documentation',
      u'OpenStack Foundation', 'manual'),
 ]
 
@@ -243,8 +243,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'tempest_testsrereleasenotes',
-     u'tempest_tests  Release Notes Documentation',
+    ('index', 'my_tempest_testsrereleasenotes',
+     u'my_tempest_tests  Release Notes Documentation',
      [u'OpenStack Foundation'], 1)
 ]
 
@@ -258,9 +258,9 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', 'tempest_tests ReleaseNotes',
-     u'tempest_tests Release Notes Documentation',
-     u'OpenStack Foundation', 'tempest_testsReleaseNotes',
+    ('index', 'my_tempest_tests ReleaseNotes',
+     u'my_tempest_tests Release Notes Documentation',
+     u'OpenStack Foundation', 'my_tempest_testsReleaseNotes',
      'One line description of project.',
      'Miscellaneous'),
 ]

@@ -3,7 +3,7 @@
 Install and configure for Ubuntu
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This section describes how to install and configure the service
+This section describes how to install and configure the my_service
 service for Ubuntu 14.04 (LTS).
 
 .. include:: common_prerequisites.rst
@@ -24,8 +24,8 @@ Install and configure components
 Finalize installation
 ---------------------
 
-Restart the service services:
+Restart the my_service services:
 
 .. code-block:: console
 
-   # service openstack-tempest_tests-api restart
+   # service openstack-my_tempest_tests-api restart
