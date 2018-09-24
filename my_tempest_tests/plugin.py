@@ -16,7 +16,7 @@ class MyTempestPlugin(plugins.TempestPlugin):
         :rtype: list
 
         Example::
-
+            from tempest.config import cfg
             # Config options are defined in a config.py module
             service_option = cfg.BoolOpt(
                 "my_service", default=True,
@@ -35,11 +35,65 @@ class MyTempestPlugin(plugins.TempestPlugin):
             from my_plugin import config as my_config
 
             return [
-                (my_service_group.name, MyServiceGroup),
-                (my_service_features_group.name, MyServiceFeaturesGroup)
+                (my_config.my_service_group.name,
+                 my_config.MyServiceGroup),
+                (my_config.my_service_features_group.name,
+                 my_config.MyServiceFeaturesGroup)
             ]
         """
         return []
+
+    def register_opts(self, conf):
+        """Add additional configuration options to tempest.
+
+        This method will be run for the plugin during the register_opts()
+        function in tempest.config.
+
+        :param ConfigOpts conf: The conf object that can be used to register
+            additional options on.
+
+        Example::
+
+            # Config options are defined in a config.py module
+            service_option = cfg.BoolOpt(
+                "my_service",
+                default=True,
+                help="Whether or not my service is available")
+
+            # Note: as long as the group is listed in get_opt_lists,
+            # it will be possible to access its optins in the plugin code
+            # via ("-" in the group name are replaces with "_"):
+            #     CONF.my_service.<option_name>
+            my_service_group = cfg.OptGroup(name="my-service",
+                                            title="My service options")
+
+            MyServiceGroup = [<list of options>]
+            # (...) More groups and options...
+
+            # Plugin is implemented in a plugin.py module
+            from my_plugin import config as my_config
+
+            def register_opts(self, conf):
+                conf.register_opt(my_config.service_option,
+                                  group='service_available')
+                conf.register_group(my_config.my_service_group)
+                conf.register_opts(my_config.MyServiceGroup,
+                                   my_config.my_service_group)
+
+                conf.register_group(my_config.my_service_feature_group)
+                conf.register_opts(my_config.MyServiceFeaturesGroup,
+                                   my_config.my_service_feature_group)
+        """
+        return
+
+    def load_tests(self):
+        """Return the information necessary to load the tests in the plugin.
+
+        :return: a tuple with the first value being the test_dir and the second
+                 being the top_level
+        :rtype: tuple
+        """
+        return
 
     def get_service_clients(self):
         """Get a list of the service clients for registration
@@ -91,56 +145,4 @@ class MyTempestPlugin(plugins.TempestPlugin):
                 return [params_foo1, params_foo2]
         """
         return []
-
-    def load_tests(self):
-        """Return the information necessary to load the tests in the plugin.
-
-        :return: a tuple with the first value being the test_dir and the second
-                 being the top_level
-        :rtype: tuple
-        """
-        return
-
-    def register_opts(self, conf):
-        """Add additional configuration options to tempest.
-
-        This method will be run for the plugin during the register_opts()
-        function in tempest.config.
-
-        :param ConfigOpts conf: The conf object that can be used to register
-            additional options on.
-
-        Example::
-
-            # Config options are defined in a config.py module
-            service_option = cfg.BoolOpt(
-                "my_service",
-                default=True,
-                help="Whether or not my service is available")
-
-            # Note: as long as the group is listed in get_opt_lists,
-            # it will be possible to access its optins in the plugin code
-            # via ("-" in the group name are replaces with "_"):
-            #     CONF.my_service.<option_name>
-            my_service_group = cfg.OptGroup(name="my-service",
-                                            title="My service options")
-
-            MyServiceGroup = [<list of options>]
-            # (...) More groups and options...
-
-            # Plugin is implemented in a plugin.py module
-            from my_plugin import config as my_config
-
-            def register_opts(self, conf):
-                conf.register_opt(my_config.service_option,
-                                  group='service_available')
-                conf.register_group(my_config.my_service_group)
-                conf.register_opts(my_config.MyServiceGroup,
-                                   my_config.my_service_group)
-
-                conf.register_group(my_config.my_service_feature_group)
-                conf.register_opts(my_config.MyServiceFeaturesGroup,
-                                   my_config.my_service_feature_group)
-        """
-        return
 
