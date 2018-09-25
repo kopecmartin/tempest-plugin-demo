@@ -1,7 +1,8 @@
 # Copyright goes here
 
-from tempest.test_discover import plugins
+import os
 
+from tempest.test_discover import plugins
 from my_tempest_tests import config as my_config
 
 
