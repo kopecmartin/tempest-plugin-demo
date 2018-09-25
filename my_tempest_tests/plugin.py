@@ -8,7 +8,7 @@ class MyTempestPlugin(plugins.TempestPlugin):
     To provide tempest the necessary information to run the plugin.
     """
 
-    def get_opt_lists(self, conf):
+    def get_opt_lists(self):
         """Get a list of options for sample config generation
 
         :return option_list: A list of tuples with the group name and options
