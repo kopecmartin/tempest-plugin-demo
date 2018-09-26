@@ -45,8 +45,8 @@ class MyTempestPlugin(plugins.TempestPlugin):
             ]
         """
         return [
-            (my_config.my_service_group, my_config.MyServiceGroup),
-            (my_config.my_service_features_group,
+            (my_config.my_service_group.name, my_config.MyServiceGroup),
+            (my_config.my_service_features_group.name,
              my_config.MyServiceFeaturesGroup),
             ('service_available', [my_config.service_option])
         ]
