@@ -5,6 +5,21 @@ This repository is a part of a technical presentation ([slides](TODO)).
 It contains a quick overview of Tempest, python-tempestconf and describes steps
 how to create a simple Tempest plugin.
 
+### Content
+1. [Create a plguin structure](#create-a-plugin-structure)
+2. [Entry point](#entry-point)
+3. [Installing a plugin](#installing-a-plugin)
+    [Globally](TODO)
+    [In a virtual environment](#in-a-virtual-environment)
+4. [Generating a sample tempest.conf](#generating-a-sample-tempest.conf)
+5. [Plugin options](#plugin-options)
+6. [Plugin class](#plugin-class)
+    [get_opt_lists](TODO)
+    [register_opts](TODO)
+    [load_tests](TODO)
+    [get_service_clients](TODO)
+
+
 ## Create a plugin structure
 Create a [structure](https://docs.openstack.org/tempest/latest/plugin.html#plugin-cookiecutter)
 using [cookiecutter](https://github.com/openstack-dev/cookiecutter).
@@ -94,7 +109,7 @@ $ tox -egenconfig
 $ source .tox/genconfig/bin/activate
 ```
 Don't forget to install your (and others if wanted) plugin(s). For information
-on how to do it, check the [above section](TODO).
+on how to do it, check the [Installing a plugin](#installing-a-plguin) section.
 Verify that all wanted plugins are installed:
 ```
 (genconfig)$ tempest list-plugins
@@ -187,7 +202,7 @@ of them. Init `plugin.py` with declarations of the methods can be found
 This method defines configuration options for our plugin, the options, which
 will be read from tempest.conf during the execution and also will be used for
 sample config generation. For generating a sample tempest.conf, see
-[this section](TODO).
+[Generating a sample tempest.conf](#generating-a-sample-tempest.conf) section.
 
 What we're going to return a list of tuples where each tuple contains
 name of our option group and a list of the options which belong to that group.
