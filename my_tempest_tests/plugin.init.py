@@ -134,7 +134,7 @@ class MyTempestPlugin(plugins.TempestPlugin):
                     'module_path': 'bar_tempest_tests.services.foo.v1',
                     'client_names': ['API1Client', 'API2Client'],
                 }
-                params_foo1.update(foo_config)
+                params_foo1.update(foo1_config)
                 foo2_config = config.service_client_config('foo')
                 params_foo2 = {
                     'name': 'foo_v2',

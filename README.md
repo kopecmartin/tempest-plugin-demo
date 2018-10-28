@@ -13,6 +13,7 @@ how to create a simple Tempest plugin.
     - [In a virtual environment](#in-a-virtual-environment)
 4. [Generating a sample tempest.conf](#generating-a-sample-tempest.conf)
 5. [Plugin options](#plugin-options)
+    - [Options and option group](#options-and-option-group)
 6. [Plugin class](#plugin-class)
     - [get_opt_lists](#get_opt_lists)
     - [register_opts](#register_opts)
