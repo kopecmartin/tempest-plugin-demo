@@ -5,9 +5,7 @@ This repository is a part of a technical presentation ([slides](TODO)).
 It contains a quick overview of Tempest, python-tempestconf and describes steps
 how to create a simple Tempest plugin.
 
-## A simple Tempest plugin
-
-### Create a plugin structure
+## Create a plugin structure
 Create a [structure](https://docs.openstack.org/tempest/latest/plugin.html#plugin-cookiecutter)
 using [cookiecutter](https://github.com/openstack-dev/cookiecutter).
 
@@ -32,7 +30,7 @@ The full output can be
 [seen here](https://github.com/kopecmartin/tempest-plugin-demo/blob/master/doc/LOGS/cookiecutter_success.md)
 
 
-### Entry point
+## Entry point
 In order to let Tempest find your plugin an entry point needs to be created.
 The following example shows a structure of an entry point entry in `setup.cfg`
 file:
@@ -49,12 +47,12 @@ tempest.test_plugins =
     my_tempest_tests = my_tempest_tests.plugin:MyTempestPlugin
 ```
 
-### Installing a plugin
+## Installing a plugin
 After an entry point was added it's good to check that Tempest is able to
 discover the plugin. How can we do that? Simply, let's install the plugin and
 list all available plugins via Tempest.
 
-#### Globally:
+### Globally:
 Note: Tempest and pip with setuptools are globally installed too.
 ```
 $ cd tempest-plugin-demo
@@ -67,7 +65,7 @@ $ tempest list-plugins  # verify that Tempest discovers the plugin
 +------------------+-----------------------------------------+
 ```
 
-#### In a virtual environment:
+### In a virtual environment:
 Note: Tempest is installed in a venv together with pip and setuptools.
 ```
 (tempest) $ pip install -e /home/$USER/path/to/tempest-plugin-demo
@@ -84,11 +82,11 @@ Tempest is able to discover the plugin, we need to add some logic in it, see
 below.
 
 
-### Generating a sample tempest.conf
+## Generating a sample tempest.conf
 I'm gonna use this later to verify, that `get_opt_lists` and `register_opts`
 methods are defined properly.
 
-#### In a vritual environment:
+### In a vritual environment:
 Prepare an virtual environment via tox and source it
 ```
 $ cd tempest
@@ -114,7 +112,7 @@ Now a sample tempest.conf was created under `./etc/` directory called
 `tempest.conf.sample`.
 
 
-### Plugin options
+## Plugin options
 Under plugin directory, which is in this case, `my_tempest_tests` directory, we
 need to define a `config.py`.
 
@@ -126,7 +124,7 @@ from tempest.config import cfg
 ```
 The whole `config.py` can be seen [here](TODO).
 
-#### Options and option group
+### Options and option group
 Let's create an option group called `my_service_group`:
 ```
 my_service_group = cfg.OptGroup(name="my-service",
@@ -162,7 +160,7 @@ so the all definitions can be found
 [here](https://github.com/openstack/oslo.config/blob/master/oslo_config/cfg.py)
 
 
-### Plugin Class
+## Plugin Class
 We need to create a plugin class, in order to provide Tempest all required
 information for running our plugin. To simplify this, Tempest provides an
 abstract class that should be used as the parent for our plugin [].
@@ -185,7 +183,7 @@ of them. Init `plugin.py` with declarations of the methods can be found
 [here](TODO).
 
 
-#### get_opt_lists
+### get_opt_lists
 This method defines configuration options for our plugin, the options, which
 will be read from tempest.conf during the execution and also will be used for
 sample config generation. For generating a sample tempest.conf, see
@@ -208,7 +206,7 @@ return [
 ]
 ```
 
-#### register_opts
+### register_opts
 The method registers our options defined in config.py which are the same ones
 `get_opt_lists` returns . This method also allows us to set any additional
 configuration options.
@@ -253,7 +251,7 @@ recommended to generate a sample tempest.conf, if it is successfully
 generated, we probably defined everything well.
 
 
-#### load_tests
+### load_tests
 This method defines a path to plugin’s tests. Thanks to this Tempest knows
 where to find our plugin tests.
 
@@ -280,7 +278,7 @@ enabled, it may be helpful for showing a more clear tracebacks.
 (tempest)$ cat tempest.log
 ```
 
-#### get_service_clients
+### get_service_clients
 This method is optional. If your plugin implements a service client you may
 use this method for its automatic registration.
 
