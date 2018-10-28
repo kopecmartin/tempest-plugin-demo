@@ -9,18 +9,15 @@ how to create a simple Tempest plugin.
 1. [Create a plguin structure](#create-a-plugin-structure)
 2. [Entry point](#entry-point)
 3. [Installing a plugin](#installing-a-plugin)
-
-    [Globally](#globally)
-    [In a virtual environment](#in-a-virtual-environment)
-
+    - [Globally](#globally)
+    - [In a virtual environment](#in-a-virtual-environment)
 4. [Generating a sample tempest.conf](#generating-a-sample-tempest.conf)
 5. [Plugin options](#plugin-options)
 6. [Plugin class](#plugin-class)
-
-    [get_opt_lists](#get_opt_lists)
-    [register_opts](#register_opts)
-    [load_tests](#load_tests)
-    [get_service_clients](#get_service_clients)
+    - [get_opt_lists](#get_opt_lists)
+    - [register_opts](#register_opts)
+    - [load_tests](#load_tests)
+    - [get_service_clients](#get_service_clients)
 
 
 ## Create a plugin structure
@@ -180,7 +177,8 @@ of a different types can be created, like:
 and others. Tempest inherits type definitions of the options from
 [oslo.config](https://github.com/openstack/oslo.config/tree/master/oslo_config)
 so the all definitions can be found
-[here](https://github.com/openstack/oslo.config/blob/master/oslo_config/cfg.py)
+[here](https://github.com/openstack/oslo.config/blob/master/oslo_config/cfg.py).
+
 A definition of the whole `config.py` can be seen
 [here](https://github.com/kopecmartin/tempest-plugin-demo/blob/master/my_tempest_tests/config.py).
 
@@ -337,7 +335,7 @@ def get_service_clients(self):
         'module_path': 'bar_tempest_tests.services.foo.v1',
         'client_names': ['API1Client', 'API2Client'],
     }
-    params_foo1.update(foo_config)
+    params_foo1.update(foo1_config)
     foo2_config = config.service_client_config('foo')
     params_foo2 = {
         'name': 'foo_v2',
