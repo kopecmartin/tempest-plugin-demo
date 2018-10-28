@@ -9,22 +9,25 @@ how to create a simple Tempest plugin.
 1. [Create a plguin structure](#create-a-plugin-structure)
 2. [Entry point](#entry-point)
 3. [Installing a plugin](#installing-a-plugin)
-    [Globally](TODO)
+
+    [Globally](#globally)
     [In a virtual environment](#in-a-virtual-environment)
+
 4. [Generating a sample tempest.conf](#generating-a-sample-tempest.conf)
 5. [Plugin options](#plugin-options)
 6. [Plugin class](#plugin-class)
-    [get_opt_lists](TODO)
-    [register_opts](TODO)
-    [load_tests](TODO)
-    [get_service_clients](TODO)
+
+    [get_opt_lists](#get_opt_lists)
+    [register_opts](#register_opts)
+    [load_tests](#load_tests)
+    [get_service_clients](#get_service_clients)
 
 
 ## Create a plugin structure
 Create a [structure](https://docs.openstack.org/tempest/latest/plugin.html#plugin-cookiecutter)
 using [cookiecutter](https://github.com/openstack-dev/cookiecutter).
 
-```
+```console
 # pip install cookiecutter
 $ cookiecutter https://git.openstack.org/openstack-dev/cookiecutter.git
 You've downloaded /home/centos/.cookiecutters/cookiecutter before. Is it okay to delete and re-download it? [yes]: no
@@ -46,17 +49,17 @@ The full output can be
 
 
 ## Entry point
-In order to let Tempest find your plugin an entry point needs to be created.
+In order to let Tempest find our plugin an entry point needs to be created.
 The following example shows a structure of an entry point entry in `setup.cfg`
 file:
-```
+```python
 [entry_points]
 tempest.test_plugins =
     plugin_name = module.path:PluginClass
 ```
 
 In case of this presentation, the following needs to be added to `setup.cfg`
-```
+```python
 [entry_points]
 tempest.test_plugins =
     my_tempest_tests = my_tempest_tests.plugin:MyTempestPlugin
@@ -69,7 +72,7 @@ list all available plugins via Tempest.
 
 ### Globally:
 Note: Tempest and pip with setuptools are globally installed too.
-```
+```console
 $ cd tempest-plugin-demo
 $ sudo pip install -e .
 $ tempest list-plugins  # verify that Tempest discovers the plugin
@@ -82,9 +85,9 @@ $ tempest list-plugins  # verify that Tempest discovers the plugin
 
 ### In a virtual environment:
 Note: Tempest is installed in a venv together with pip and setuptools.
-```
-(tempest) $ pip install -e /home/$USER/path/to/tempest-plugin-demo
-(tempest) $ tempest list-plugins  # verify that Tempest discovers the plugin
+```console
+(tempest)$ pip install -e /home/$USER/path/to/tempest-plugin-demo
+(tempest)$ tempest list-plugins  # verify that Tempest discovers the plugin
 +------------------+-----------------------------------------+
 |       Name       |                EntryPoint               |
 +------------------+-----------------------------------------+
@@ -102,8 +105,8 @@ I'm gonna use this later to verify, that `get_opt_lists` and `register_opts`
 methods are defined properly.
 
 ### In a vritual environment:
-Prepare an virtual environment via tox and source it
-```
+Prepare a virtual environment via tox and source it
+```console
 $ cd tempest
 $ tox -egenconfig
 $ source .tox/genconfig/bin/activate
@@ -111,19 +114,19 @@ $ source .tox/genconfig/bin/activate
 Don't forget to install your (and others if wanted) plugin(s). For information
 on how to do it, check the [Installing a plugin](#installing-a-plguin) section.
 Verify that all wanted plugins are installed:
-```
+```console
 (genconfig)$ tempest list-plugins
 ```
 Now run the tox command again
-```
+```console
 (genconfig)$ tox -egenconfig
 ```
 Or run `oslo-config-generator` directly, if you check `tox.ini` file you'll see
 it's the same command tox uses.
-```
+```console
 $ oslo-config-generator --config-file tempest/cmd/config-generator.tempest.conf
 ```
-Now a sample tempest.conf was created under `./etc/` directory called
+Now a sample `tempest.conf` was created under `./etc/` directory called
 `tempest.conf.sample`.
 
 
@@ -131,17 +134,17 @@ Now a sample tempest.conf was created under `./etc/` directory called
 Under plugin directory, which is in this case, `my_tempest_tests` directory, we
 need to define a `config.py`.
 
-First, we need to import cfg from tempest.config module, which is one of the
+First, we need to import **cfg from tempest.config module**, which is one of the
 stable APIs Tempest provides,
-[see here](https://docs.openstack.org/tempest/latest/plugin.html#stable-tempest-apis-plugins-may-use)
-```
+[see here](https://docs.openstack.org/tempest/latest/plugin.html#stable-tempest-apis-plugins-may-use).
+```python
 from tempest.config import cfg
 ```
 The whole `config.py` can be seen [here](TODO).
 
 ### Options and option group
 Let's create an option group called `my_service_group`:
-```
+```python
 my_service_group = cfg.OptGroup(name="my-service",
                                 title="My service options")
 ```
@@ -149,8 +152,9 @@ The example above shows how an option group can be created. It's name is
 `my-service` and it's a section name in a `tempest.conf` file.
 
 When we have a group, let's create also a few options which will be part of
-that group.
-```
+that group (they are just defined here, in register_opts method we'll make sure
+they will be part of the group we want).
+```python
 MyServiceGroup = [
     cfg.StrOpt("catalog_type",
                default="share",
@@ -169,6 +173,7 @@ of a different types can be created, like:
 - FloatOpt - float type option
 - ListOpt - option of a list type
 - DictOpt - option of a dict type
+
 and others. Tempest inherits type definitions of the options from
 [oslo.config](https://github.com/openstack/oslo.config/tree/master/oslo_config)
 so the all definitions can be found
@@ -180,8 +185,9 @@ We need to create a plugin class, in order to provide Tempest all required
 information for running our plugin. To simplify this, Tempest provides an
 abstract class that should be used as the parent for our plugin [].
 
-Let's create a `my_tempest_tests/plugin.py`, which will contain the following:
-```
+Let's create a `my_tempest_tests/plugin.py` file, which will contain the
+following:
+```python
 # import Tempest's API for plugins
 from tempest.test_discover import plugins
 # import config.py we have defined in the previous step
@@ -212,13 +218,14 @@ define another tuple. In the example below it's the last tuple, where we
 say that we want to have our `my_config.service_option` included in the
 `service_available` group - which is a group registered already by Tempest.
 
-```
-return [
-    (my_config.my_service_group.name, my_config.MyServiceGroup),
-    (my_config.my_service_features_group.name,
-     my_config.MyServiceFeaturesGroup),
-    ('service_available', [my_config.service_option])
-]
+```python
+def get_opt_lists(self):
+    return [
+        (my_config.my_service_group.name, my_config.MyServiceGroup),
+        (my_config.my_service_features_group.name,
+        my_config.MyServiceFeaturesGroup),
+        ('service_available', [my_config.service_option])
+    ]
 ```
 
 ### register_opts
@@ -231,28 +238,29 @@ already registered by Tempest group called `service_available`.
 
 Then I register one of my groups defined in the `config.py` and options which
 should belong to that group. And then the same for the other groups accordingly.
-```
-# don't register service_available group, it's done so by Tempest
-conf.register_opt(my_config.service_option,
-                  group='service_available')
+```python
+def register_opts(self, conf):
+    # don't register service_available group, it's done so by Tempest
+    conf.register_opt(my_config.service_option,
+                      group='service_available')
 
-# registering one of my option groups
-conf.register_group(my_config.my_service_group)
-# registering options which I want to have under that group
-conf.register_opts(my_config.MyServiceGroup,
-                   my_config.my_service_group)
+    # registering one of my option groups
+    conf.register_group(my_config.my_service_group)
+    # registering options which I want to have under that group
+    conf.register_opts(my_config.MyServiceGroup,
+                       my_config.my_service_group)
 
-# registering the other group I have defined in config.py
-conf.register_group(my_config.my_service_feature_group)
-# registering the options I want to have under that group
-conf.register_opts(my_config.MyServiceFeaturesGroup,
-                   my_config.my_service_feature_group)
+    # registering the other group I have defined in config.py
+    conf.register_group(my_config.my_service_feature_group)
+    # registering the options I want to have under that group
+    conf.register_opts(my_config.MyServiceFeaturesGroup,
+                       my_config.my_service_feature_group)
 ```
 
 By additional configuration is meant for example that you may add a logic here
 which chooses the default values for some of the options under certain
 circumstances, like:
-```
+```python
 if certain_circumstances:
     conf.set_default(
         "name_of_option_i_want_to_set_value_to",
@@ -272,23 +280,24 @@ where to find our plugin tests.
 
 It returns a tuple with the first value being the test_dir and the second
 being the top_level, for example:
-```
-base_path = os.path.split(os.path.dirname(
-    os.path.abspath(__file__)))[0]
-test_dir = "my_tempest_tests/tests"
-full_test_dir = os.path.join(base_path, test_dir)
+```python
+def load_tests(self):
+    base_path = os.path.split(os.path.dirname(
+        os.path.abspath(__file__)))[0]
+    test_dir = "my_tempest_tests/tests"
+    full_test_dir = os.path.join(base_path, test_dir)
 
-return full_test_dir, base_path
+    return full_test_dir, base_path
 ```
 
 To verify our tests can be discovered, let's try listing them:
-```
+```console
 (tempest)$ ostestr -l
 ```
 
 If there are any problems, try to create a workspace with `--debug` argument
 enabled, it may be helpful for showing a more clear tracebacks.
-```
+```console
 (tempest)$ tempest init --debug <name of a workspace>
 (tempest)$ cat tempest.log
 ```
@@ -297,7 +306,10 @@ enabled, it may be helpful for showing a more clear tracebacks.
 This method is optional. If your plugin implements a service client you may
 use this method for its automatic registration.
 
-
+```python
+def get_service_clients(self):
+    pass
+```
 
 
 
