@@ -140,7 +140,10 @@ stable APIs Tempest provides,
 ```python
 from tempest.config import cfg
 ```
-The whole `config.py` can be seen [here](TODO).
+**Note:**People make often a mistake by importing `oslo.config` instead. Don't
+do that. It’s recommended to use tempest.config because it contains lots of
+stuff on top of oslo.config. For example default tempest options are defined
+there.
 
 ### Options and option group
 Let's create an option group called `my_service_group`:
@@ -178,6 +181,8 @@ and others. Tempest inherits type definitions of the options from
 [oslo.config](https://github.com/openstack/oslo.config/tree/master/oslo_config)
 so the all definitions can be found
 [here](https://github.com/openstack/oslo.config/blob/master/oslo_config/cfg.py)
+A definition of the whole `config.py` can be seen
+[here](https://github.com/kopecmartin/tempest-plugin-demo/blob/master/my_tempest_tests/config.py).
 
 
 ## Plugin Class
@@ -201,7 +206,7 @@ class MyTempestPlugin(plugins.TempestPlugin):
 Then we need to define the all mandatory methods in the abstract class.
 [Here is the list](https://docs.openstack.org/tempest/latest/plugin.html#abstract-plugin-class)
 of them. Init `plugin.py` with declarations of the methods can be found
-[here](TODO).
+[here](https://github.com/kopecmartin/tempest-plugin-demo/blob/master/my_tempest_tests/plugin.init.py).
 
 
 ### get_opt_lists
@@ -223,7 +228,7 @@ def get_opt_lists(self):
     return [
         (my_config.my_service_group.name, my_config.MyServiceGroup),
         (my_config.my_service_features_group.name,
-        my_config.MyServiceFeaturesGroup),
+         my_config.MyServiceFeaturesGroup),
         ('service_available', [my_config.service_option])
     ]
 ```
@@ -303,50 +308,49 @@ enabled, it may be helpful for showing a more clear tracebacks.
 ```
 
 ### get_service_clients
-This method is optional. If your plugin implements a service client you may
-use this method for its automatic registration.
+This method is optional. If your plugin implements a service client (or more)
+you may use this method for its automatic registration.
 
+Example implementation with one service client:
 ```python
 def get_service_clients(self):
-    pass
+    # Example implementation with one service client
+    myservice_config = config.service_client_config('myservice')
+    params = {
+        'name': 'myservice',
+        'service_version': 'myservice',
+        'module_path': 'myservice_tempest_tests.services',
+        'client_names': ['API1Client', 'API2Client'],
+    }
+    params.update(myservice_config)
+    return [params]
 ```
 
+Example implementation with two service clients:
+```python
+def get_service_clients(self):
+    # Example implementation with two service clients
+    foo1_config = config.service_client_config('foo')
+    params_foo1 = {
+        'name': 'foo_v1',
+        'service_version': 'foo.v1',
+        'module_path': 'bar_tempest_tests.services.foo.v1',
+        'client_names': ['API1Client', 'API2Client'],
+    }
+    params_foo1.update(foo_config)
+    foo2_config = config.service_client_config('foo')
+    params_foo2 = {
+        'name': 'foo_v2',
+        'service_version': 'foo.v2',
+        'module_path': 'bar_tempest_tests.services.foo.v2',
+        'client_names': ['API1Client', 'API2Client'],
+    }
+    params_foo2.update(foo2_config)
+    return [params_foo1, params_foo2]
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Both examples above are taken from the
+[official Tempest documentation](https://docs.openstack.org/tempest/latest/plugin.html)
 
 
 
