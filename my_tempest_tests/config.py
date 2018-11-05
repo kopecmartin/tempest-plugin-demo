@@ -10,8 +10,8 @@ service_option = cfg.BoolOpt("my_service",
 my_service_group = cfg.OptGroup(name="my-service",
                                 title="My service options")
 
-my_service_features_group = cfg.OptGroup(name="my-service-features",
-                                         title="My service available features")
+my_service_feature_group = cfg.OptGroup(name="my-service-features",
+                                        title="My service available features")
 
 MyServiceGroup = [
     cfg.StrOpt("catalog_type",

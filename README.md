@@ -231,6 +231,10 @@ def get_opt_lists(self):
         ('service_available', [my_config.service_option])
     ]
 ```
+**Note:** When we have defined `get_opt_lists`, it's recommended to generate
+a sample tempest.conf, see
+[Generating a sample tempest.conf](#generating-a-sample-tempestconf), if it is
+successfully generated, we have probably defined everything well.
 
 ### register_opts
 The method registers our options defined in config.py which are the same ones
@@ -272,11 +276,6 @@ if certain_circumstances:
         group="name_of_the_group_the_option_is"
     )
 ```
-
-**Note:** When we have defined both `get_opt_lists` and `register_opts`, it's
-recommended to generate a sample tempest.conf, see
-[Generating a sample tempest.conf](#generating-a-sample-tempestconf), if it is
-successfully generated, we have probably defined everything well.
 
 
 ### load_tests
