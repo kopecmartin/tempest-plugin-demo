@@ -24,7 +24,7 @@ class MyTempestPlugin(plugins.TempestPlugin):
 
             my_service_group = cfg.OptGroup(name="my-service",
                                             title="My service options")
-            my_service_features_group = cfg.OptGroup(
+            my_service_feature_group = cfg.OptGroup(
                 name="my-service-features",
                 title="My service available features")
 
@@ -37,7 +37,7 @@ class MyTempestPlugin(plugins.TempestPlugin):
             return [
                 (my_config.my_service_group.name,
                  my_config.MyServiceGroup),
-                (my_config.my_service_features_group.name,
+                (my_config.my_service_feature_group.name,
                  my_config.MyServiceFeaturesGroup)
             ]
         """

@@ -352,8 +352,21 @@ Both examples above are taken from the
 [official Tempest documentation](https://docs.openstack.org/tempest/latest/plugin.html).
 
 
+## Write some tests now
+Now you may write your tests under `my_tempest_tests/tests`.
 
 
+## Run the plugin's tests
+
+```
+(tempest) $ tempest list-plugins
++------------------+-----------------------------------------+
+|       Name       |                EntryPoint               |
++------------------+-----------------------------------------+
+| my_tempest_tests | my_tempest_tests.plugin:MyTempestPlugin |
++------------------+-----------------------------------------+
+(tempest) $ tempest run --regex my_tempest_tests
+```
 
 
 
