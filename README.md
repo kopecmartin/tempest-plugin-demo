@@ -19,6 +19,9 @@ how to create a simple Tempest plugin.
     - [register_opts](#register_opts)
     - [load_tests](#load_tests)
     - [get_service_clients](#get_service_clients)
+7. [Write some tests now](#write-some-tests-now)
+8. [Run the plugin's tests](#run-the-plugins-tests)
+9. [Source](#source)
 
 
 ## Create a plugin structure
@@ -83,7 +86,7 @@ $ tempest list-plugins  # verify that Tempest discovers the plugin
 
 ### In a virtual environment:
 Note: Tempest is installed in a venv together with pip and setuptools.
-```console
+```
 (tempest)$ pip install -e /home/$USER/path/to/tempest-plugin-demo
 (tempest)$ tempest list-plugins  # verify that Tempest discovers the plugin
 +------------------+-----------------------------------------+
@@ -112,11 +115,11 @@ $ source .tox/genconfig/bin/activate
 Don't forget to install your (and others if wanted) plugin(s). For information
 on how to do it, check the [Installing a plugin](#installing-a-plguin) section.
 Verify that all wanted plugins are installed:
-```console
+```
 (genconfig)$ tempest list-plugins
 ```
 Now run the tox command again
-```console
+```
 (genconfig)$ tox -egenconfig
 ```
 Or run `oslo-config-generator` directly, if you check `tox.ini` file you'll see
@@ -295,13 +298,13 @@ def load_tests(self):
 ```
 
 To verify our tests can be discovered, let's try listing them:
-```console
+```
 (tempest)$ ostestr -l
 ```
 
 If there are any problems, try to create a workspace with `--debug` argument
 enabled, it may be helpful for showing a more clear tracebacks.
-```console
+```
 (tempest)$ tempest init --debug <name of a workspace>
 (tempest)$ cat tempest.log
 ```
@@ -359,13 +362,13 @@ Now you may write your tests under `my_tempest_tests/tests`.
 ## Run the plugin's tests
 
 ```
-(tempest) $ tempest list-plugins
+(tempest)$ tempest list-plugins
 +------------------+-----------------------------------------+
 |       Name       |                EntryPoint               |
 +------------------+-----------------------------------------+
 | my_tempest_tests | my_tempest_tests.plugin:MyTempestPlugin |
 +------------------+-----------------------------------------+
-(tempest) $ tempest run --regex my_tempest_tests
+(tempest)$ tempest run --regex my_tempest_tests
 ```
 
 
