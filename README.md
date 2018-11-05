@@ -129,7 +129,7 @@ Now a sample `tempest.conf` was created under `./etc/` directory called
 
 
 ## Plugin options
-Under plugin directory, which is in this case, `my_tempest_tests` directory, we
+Under plugin directory, which in this case it's `my_tempest_tests` directory, we
 need to define a `config.py`.
 
 First, we need to import **cfg from tempest.config module**, which is one of the
@@ -274,8 +274,9 @@ if certain_circumstances:
 ```
 
 **Note:** When we have defined both `get_opt_lists` and `register_opts`, it's
-recommended to generate a sample tempest.conf, if it is successfully
-generated, we probably defined everything well.
+recommended to generate a sample tempest.conf, see
+[Generating a sample tempest.conf](#generating-a-sample-tempestconf), if it is
+successfully generated, we have probably defined everything well.
 
 
 ### load_tests
@@ -349,7 +350,7 @@ def get_service_clients(self):
 ```
 
 Both examples above are taken from the
-[official Tempest documentation](https://docs.openstack.org/tempest/latest/plugin.html)
+[official Tempest documentation](https://docs.openstack.org/tempest/latest/plugin.html).
 
 
 
