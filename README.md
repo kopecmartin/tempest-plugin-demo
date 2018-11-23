@@ -1,12 +1,12 @@
 # tempest-plugin-demo
 
 ## About
-This repository is a part of a technical presentation ([slides](TODO)).
+This repository is part of a technical presentation ([slides](TODO)).
 It contains a quick overview of Tempest, python-tempestconf and describes steps
 how to create a simple Tempest plugin.
 
 ### Content
-1. [Create a plguin structure](#create-a-plugin-structure)
+1. [Create a plugin structure](#create-a-plugin-structure)
 2. [Entry point](#entry-point)
 3. [Installing a plugin](#installing-a-plugin)
     - [Globally](#globally)
@@ -29,7 +29,7 @@ Create a [structure](https://docs.openstack.org/tempest/latest/plugin.html#plugi
 using [cookiecutter](https://github.com/openstack-dev/cookiecutter).
 
 ```console
-# pip install cookiecutter
+$ pip install cookiecutter
 $ cookiecutter https://git.openstack.org/openstack-dev/cookiecutter.git
 You've downloaded /home/centos/.cookiecutters/cookiecutter before. Is it okay to delete and re-download it? [yes]: no
 Do you want to re-use the existing version? [yes]: yes
@@ -59,7 +59,8 @@ tempest.test_plugins =
     plugin_name = module.path:PluginClass
 ```
 
-In case of this presentation, the following needs to be added to `setup.cfg`
+To match what cookiecuter set in the step above, the `setup.cfg` needs to be
+edited so that it contains the following:
 ```python
 [entry_points]
 tempest.test_plugins =
@@ -72,7 +73,8 @@ discover the plugin. How can we do that? Simply, let's install the plugin and
 list all available plugins via Tempest.
 
 ### Globally:
-Note: Tempest and pip with setuptools are globally installed too.
+Tempest and pip with setuptools have been installed globally/at the system
+level.
 ```console
 $ cd tempest-plugin-demo
 $ sudo pip install -e .
@@ -85,7 +87,7 @@ $ tempest list-plugins  # verify that Tempest discovers the plugin
 ```
 
 ### In a virtual environment:
-Note: Tempest is installed in a venv together with pip and setuptools.
+Tempest is installed in a venv together with pip and setuptools.
 ```
 (tempest)$ pip install -e /home/$USER/path/to/tempest-plugin-demo
 (tempest)$ tempest list-plugins  # verify that Tempest discovers the plugin
@@ -102,7 +104,7 @@ below.
 
 
 ## Generating a sample tempest.conf
-I'm gonna use this later to verify, that `get_opt_lists` and `register_opts`
+I'm gonna use this later to verify that `get_opt_lists` and `register_opts`
 methods are defined properly.
 
 ### In a vritual environment:
@@ -120,14 +122,15 @@ Verify that all wanted plugins are installed:
 ```
 Now run the tox command again
 ```
-(genconfig)$ tox -egenconfig
+(genconfig)$ deactivate  # better to deactivate the env first
+$ tox -egenconfig
 ```
-Or run `oslo-config-generator` directly, if you check `tox.ini` file you'll see
-it's the same command tox uses.
-```console
-$ oslo-config-generator --config-file tempest/cmd/config-generator.tempest.conf
+Or you don't have to deactivate the venv, just run `oslo-config-generator`
+directly. If you check `tox.ini` file you'll see it's the same command tox uses.
 ```
-Now a sample `tempest.conf` was created under `./etc/` directory called
+(genconfig)$ oslo-config-generator --config-file tempest/cmd/config-generator.tempest.conf
+```
+Now a sample `tempest.conf` was created under `./etc/` directory under name of
 `tempest.conf.sample`.
 
 
@@ -152,7 +155,7 @@ Let's create an option group called `my_service_group`:
 my_service_group = cfg.OptGroup(name="my-service",
                                 title="My service options")
 ```
-The example above shows how an option group can be created. It's name is
+The example above shows how an option group can be created. Its name is
 `my-service` and it's a section name in a `tempest.conf` file.
 
 When we have a group, let's create also a few options which will be part of
@@ -175,8 +178,8 @@ of a different types can be created, like:
 - BoolOpt - boolean type option
 - IntOpt  - integer type option
 - FloatOpt - float type option
-- ListOpt - option of a list type
-- DictOpt - option of a dict type
+- ListOpt - list type option
+- DictOpt - list type option
 
 and others. Tempest inherits type definitions of the options from
 [oslo.config](https://github.com/openstack/oslo.config/tree/master/oslo_config)
@@ -217,7 +220,7 @@ will be read from tempest.conf during the execution and also will be used for
 sample config generation. For generating a sample tempest.conf, see
 [Generating a sample tempest.conf](#generating-a-sample-tempest.conf) section.
 
-What we're going to return a list of tuples where each tuple contains
+What we're going to return is a list of tuples where each tuple contains
 name of our option group and a list of the options which belong to that group.
 So there will be as many tuples as option groups we defined.
 Plus, if want to have service option included in a sample tempest.conf, we may
@@ -299,7 +302,11 @@ def load_tests(self):
 
 To verify our tests can be discovered, let's try listing them:
 ```
-(tempest)$ ostestr -l
+(tempest)$ stestr -l
+```
+or
+```
+(tempest)$ tempest run -l
 ```
 
 If there are any problems, try to create a workspace with `--debug` argument
